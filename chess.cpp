@@ -8,7 +8,13 @@ using namespace std;
 
 int main()
 {
-	Tree tree;
-	tree.create();
+	try {
+		Tree tree;
+		tree.create();
+	}
+	catch (std::exception& e)
+	{
+	    std::cerr << "Exception catched : " << e.what() << std::endl;
+	}
 	return 0;
 }
