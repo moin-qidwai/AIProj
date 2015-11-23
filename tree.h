@@ -453,7 +453,7 @@ std::vector<state> expand(state s)
 class Tree {
     state head;
     std::vector<state*> stack;
-    state newchilds[1000];
+    state * newchilds = new state[50000];
     
     public:
     
@@ -476,7 +476,7 @@ class Tree {
 
     void create()
     {
-    	int n = 0, ind = 0;
+    	int ind = 0;
     	stack.push_back(&head);
     	while(stack.size() > 0)
     	{
@@ -484,12 +484,17 @@ class Tree {
     		stack.pop_back();
     		if(current->getValue() != 100)
     		{
-    			n++;
-    			if(n > 5)
-    				break;
     			std::vector<state> temp = expand(*current);
+    			if(temp.size() > 1)
+    			{
+    				if(temp.at(0).getLevel() > 4)
+    				{
+    					continue;
+    				}
+    			}
     			for (int i = 0; i < temp.size(); ++i)
     			{
+    				
     				newchilds[ind] = temp.at(i);
     				current->children.push_back(&(newchilds[ind]));
     				stack.push_back(&(newchilds[ind]));
@@ -497,6 +502,11 @@ class Tree {
     			}
     		}
     	}
+    }
+
+    void destroy()
+    {
+    	delete newchilds;
     }
 
     void traverse()
