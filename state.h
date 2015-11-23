@@ -23,7 +23,21 @@ class state {
 	    	children.push_back(NULL);
 	    }
 
-	    static state createChild (state parent)
+	    state(const state &t) //copy constructor
+		{
+			for (int i = 0; i < 8; ++i)
+			{
+				for (int j = 0; j < 8; ++j)
+				{
+					board[i][j] = t.board[i][j];
+				}
+			}
+			player = t.player;
+			level = t.level;
+			calcValue();
+		}
+
+	    static state createChild(state parent)
 	    {
 	    	state s;
 			for (int i = 0; i < 8; ++i)
@@ -104,6 +118,11 @@ class state {
 		void setPlayer(bool p)
 		{
 			player = p;
+		}
+
+		int getValue()
+		{
+			return value;
 		}
 
 		int getLevel()
