@@ -28,4 +28,109 @@ class data {
 		    head.calcValue();
 		    return head;
 		}
+
+		static bool validMove(state s, int startF, int startR, int endF, int endR)
+		{
+			// only doing for player at first
+			char chosenPiece = s.board[startF][startR];
+			if(s.board[endF][endR] == 'k' || s.board[endF][endR] == 'q' || s.board[endF][endR] == 'r' || s.board[endF][endR] == 'b' || s.board[endF][endR] == 'h' || s.board[endF][endR] == 'p')
+				return false;
+			switch(chosenPiece)
+			{
+				case 'k':
+					return (endF-startF == -1 || endF-startF == 1) && (endR-startR == -1 || endR-startR == 1);
+					break;
+				case 'q':
+					if( std::abs((double)endF-startF) == std::abs((double)endR-startR) )
+					{
+						int dirF = endF - startF > 0 ? 1 : -1, dirR = endR - startR > 0 ? 1 : -1;
+						for (int i = startF, j = startR; i != endF && j != endR ; i =+ dirF, j =+ dirR)
+						{
+							if(s.board[i][j] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else if (endF == startF)
+					{
+						int dirR = endR - startR > 0 ? 1 : -1;
+						for (int i = startR; i != endR; i += dirR)
+						{
+							if(s.board[startF][i] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else if (endR == startR)
+					{
+						int dirF = endF - startF > 0 ? 1 : -1;
+						for (int i = startF; i != endF; i += dirF)
+						{
+							if(s.board[i][startR] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+					break;
+				case 'r':
+					if (endF == startF)
+					{
+						int dirR = endR - startR > 0 ? 1 : -1;
+						for (int i = startR; i != endR; i += dirR)
+						{
+							if(s.board[startF][i] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else if (endR == startR)
+					{
+						int dirF = endF - startF > 0 ? 1 : -1;
+						for (int i = startF; i != endF; i += dirF)
+						{
+							if(s.board[i][startR] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+					break;
+				case 'b':
+					if( std::abs((double)endF-startF) == std::abs((double)endR-startR) )
+					{
+						int dirF = endF - startF > 0 ? 1 : -1, dirR = endR - startR > 0 ? 1 : -1;
+						for (int i = startF, j = startR; i != endF && j != endR ; i =+ dirF, j =+ dirR)
+						{
+							if(s.board[i][j] != 'E')
+								return false;
+						}
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+					break;
+				case 'h':
+					return ( (std::abs((double)endF-startF) == 2 && std::abs((double)endR-startR) == 1) || (std::abs((double)endF-startF) == 1 && std::abs((double)endR-startR) == 2) );
+					break;
+				case 'p':
+					return (endF-startF == -1) && ( endR-startR >= -1 && endR-startR <= 1 );
+					break;
+				default:
+					return false;
+					break;
+			}
+		}
+
+		
+
+
 };

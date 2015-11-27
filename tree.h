@@ -1,4 +1,5 @@
 #include "state.h"
+#include "data.h"
 
 std::vector<state> expand(state s)
 {
@@ -453,7 +454,7 @@ std::vector<state> expand(state s)
 class Tree {
     state head;
     std::vector<state*> stack;
-    state * newchilds = new state[50000];
+    state * newchilds = new state[7000];
     
     public:
     
@@ -482,12 +483,12 @@ class Tree {
     	{
     		state * current = stack.back();
     		stack.pop_back();
-    		if(current->getValue() != 100)
+    		if(current->getValue() != 10000)
     		{
     			std::vector<state> temp = expand(*current);
     			if(temp.size() > 1)
     			{
-    				if(temp.at(0).getLevel() > 4)
+    				if(temp.at(0).getLevel() > 3)
     				{
     					continue;
     				}
@@ -504,6 +505,93 @@ class Tree {
     	}
     }
 
+    void static minmax(state & s)
+    {
+    	if(s.children.size() == 0)
+    	{
+    		s.setMinMax(s.getValue());
+    		return;
+    	}
+    	for (int i = 0; i < s.children.size(); ++i)
+    	{
+    		if(s.children.at(i) != NULL)
+    		{
+    			Tree::minmax( *(s.children.at(i)) );
+    		}
+    	}
+    	if(s.getPlayer())
+    	{
+    		int min = 100000;
+    		for (int i = 0; i < s.children.size(); ++i)
+    		{
+    			if(s.children.at(i) != NULL)
+    			{
+    				min = s.children.at(i)->getValue();
+    				break;
+    			}		
+    		}
+    		if(min != 100000)
+    		{
+    			for (int i = 1; i < s.children.size(); ++i)
+	    		{
+	    			if(s.children.at(i) != NULL && s.children.at(i)->getValue() < min)
+	    				min = s.children.at(i)->getValue();	
+	    		}
+	    		s.setMinMax(min);
+    		}
+    		else
+    		{
+    			s.setMinMax(s.getValue());
+    		}
+    	}
+    	else
+    	{
+    		int max = -100000;
+    		for (int i = 0; i < s.children.size(); ++i)
+    		{
+    			if(s.children.at(i) != NULL)
+    			{
+    				max = s.children.at(i)->getValue();
+    				break;
+    			}		
+    		}
+    		if(max != -100000)
+    		{
+    			for (int i = 1; i < s.children.size(); ++i)
+	    		{
+	    			if(s.children.at(i) != NULL && s.children.at(i)->getValue() > max)
+	    				max = s.children.at(i)->getValue();	
+	    		}
+	    		s.setMinMax(max);
+    		}
+    		else
+    		{
+    			s.setMinMax(s.getValue());
+    		}
+    	}
+    }
+
+
+    void recurse()
+    {
+    	Tree::minmax(head);
+    }
+
+    state getMove()
+    {
+    	for (int i = 0; i < head.children.size(); ++i)
+    	{
+    		if(head.children.at(i) != NULL)
+    		{
+    			if(head.getMinMax() == head.children.at(i)->getValue())
+    			{
+    				return *(head.children.at(i));
+    			}
+    		}
+    	}
+    	return head;
+    }
+
     void destroy()
     {
     	delete newchilds;
@@ -512,13 +600,13 @@ class Tree {
     void traverse()
     {
     	head.output();
-    	for (int i = head.children.size()-1; i >= 0; --i)
-    	{
-    		if(head.children[i] != NULL)
-    			head.children[i]->output();
-    		else
-    			break;
-    	}
+    	// for (int i = head.children.size()-1; i >= 0; --i)
+    	// {
+    	// 	if(head.children[i] != NULL)
+    	// 		head.children[i]->output();
+    	// 	else
+    	// 		break;
+    	// }
     }
 
 };
