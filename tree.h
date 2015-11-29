@@ -612,7 +612,7 @@ class Tree {
     	{
     		if(s.getPlayer() && (s.getMinMax() != state::MAXINFINITY))
 			{
-				if(s.parent != NULL && sizeof(s.parent->board) > 64)
+				if(s.parent != NULL && sizeof(s.parent->board) >= sizeof(int)*64)
 				{
 					if(s.parent->getMinMax() != state::MININFINITY && s.parent->getMinMax() > s.getMinMax())
 					{
@@ -622,7 +622,7 @@ class Tree {
 			}
 			else if (!(s.getPlayer()) && (s.getMinMax() != state::MININFINITY) )
 			{
-				if(s.parent != NULL && sizeof(s.parent->board) > 64) 
+				if(s.parent != NULL && sizeof(s.parent->board) >= sizeof(int)*64) 
 				{
 					if(s.parent->getMinMax() != state::MAXINFINITY && s.parent->getMinMax() < s.getMinMax())
 					{

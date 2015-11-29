@@ -14,21 +14,37 @@ int main()
     cout << "***************BOARD****************" << endl;
 	head.output();
 
-    int initF, initR;
-    cout << "Piece to move:" << endl;
-    cout << "File = "; cin >> initF; 
-    cout << "Rank = "; cin >>  initR;
-    while(head.board[initF][initR] != 'k' && head.board[initF][initR] != 'q' && head.board[initF][initR] != 'r' && head.board[initF][initR] != 'h' && head.board[initF][initR] != 'b' && head.board[initF][initR] != 'p')
-    {
-    	cout << "You chose a block that does not contain one of your pieces. \nPlease try again.\n" << endl;
-    	cout << "File = "; cin >> initF; 
-        cout << "Rank = "; cin >>  initR;
-    }
+    int initF, initR, resF, resR;
 
-    int resF, resR;
-    cout << "Move where?" << endl;
-    cout << "File = "; cin >> resF; 
-    cout << "Rank = "; cin >>  resR;
+    int revert = 99;
+
+    while(revert == 99)
+    {
+        cout << "Piece to move:" << endl;
+        cout << "File = "; cin >> initF; 
+        cout << "Rank = "; cin >>  initR;
+
+        while(head.board[initF][initR] != 'k' && head.board[initF][initR] != 'q' && head.board[initF][initR] != 'r' && head.board[initF][initR] != 'h' && head.board[initF][initR] != 'b' && head.board[initF][initR] != 'p')
+        {
+            cout << "You chose a block that does not contain one of your pieces. \nPlease try again.\n" << endl;
+            cout << "File = "; cin >> initF; 
+            cout << "Rank = "; cin >>  initR;
+        }
+
+        cout << "Move where? Enter 99 to revert piece selection"  << endl;
+        cout << "File = "; cin >> resF; 
+        if(resF == 99)
+        {
+            revert = 99;
+            continue;
+        }
+        else
+        {
+            revert = 0;
+        }
+        cout << "Rank = "; cin >>  resR;
+    }
+    
 
     // func(state s, startF, startR, endF, endR)
     // function to check if the move is a valid move or not. if so then perform the move. if not then ask for the end position again.
