@@ -52,7 +52,13 @@ int main()
 
     while(1)
     {
-        head = tree.getMove();
+        state temporary = tree.getMove();
+        if(temporary.getLevel() == head.getLevel())
+        {
+            cout << "The computer has been checkmated. Good Job. You Win. Congrats" << endl;
+            return 0;
+        }
+        head = temporary;
         if(head.finished())
         {
             cout << "The computer has killed your king. The game is over." << endl;

@@ -689,6 +689,7 @@ class Tree {
     			return *(head.children.at(i));
     		}
     	}
+    	return head;
     }
 
     void destroy()
