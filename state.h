@@ -150,7 +150,12 @@ class state {
 
     public:
 
+    	static const int MAXINFINITY = 100000;
+		static const int MININFINITY = -100000;
+
+
     	char board[8][8];
+    	state * parent;
     	std::vector<state*> children;
 
 	    state()
@@ -166,7 +171,7 @@ class state {
 	    	level = 0;
 	    	minmax = 0;
 	    	calcValue();
-	    	minmax = -10000;
+	    	minmax = state::MININFINITY;
 	    	children.push_back(NULL);
 	    }
 
@@ -182,7 +187,7 @@ class state {
 			player = t.player;
 			level = t.level;
 			calcValue();
-			minmax = -10000;
+			parent = t.parent;
 		}
 
 	    static state createChild(state parent)
@@ -199,8 +204,29 @@ class state {
 			s.level = parent.level+1;
 			s.children.push_back(NULL);
 			s.calcValue();
-			s.minmax = -10000;
+			s.minmax = parent.player ? state::MAXINFINITY : state::MININFINITY;
 			return s;
+	    }
+
+	    bool finished()
+	    {
+	    	for (int i = 0; i < 8; ++i)
+	    	{
+	    		for (int j = 0; j < 8; ++j)
+	    		{
+	    			if(!player)
+	    			{
+	    				if(board[i][j] == 'K')
+	    					return false;
+	    			}
+	    			else
+	    			{
+	    				if(board[i][j] == 'k')
+	    					return false;
+	    			}
+	    		}
+	    	}
+	    	return true;
 	    }
 
 	    void calcValue()
@@ -212,50 +238,62 @@ class state {
 				for (int j = 0; j < 8; ++j)
 				{
 					victory = board[i][j] == 'k' ? false : victory;
-					switch(board[i][j])
+					if (player)
 					{
-						case 'K':
-							score+=CKingTable[(i*8)+j];
-							break;
-						case 'Q':
-							score+=CQueenTable[(i*8)+j];
-							break;
-						case 'R':
-							score+=CRookTable[(i*8)+j];
-							break;
-						case 'B':
-							score+=CBishopTable[(i*8)+j];
-							break;
-						case 'H':
-							score+=CKnightTable[(i*8)+j];
-							break;
-						case 'P':
-							score+=CPawnTable[(i*8)+j];
-							break;
-						case 'k':
-							score+=PKingTable[(i*8)+j];
-							break;
-						case 'q':
-							score+=PQueenTable[(i*8)+j];
-							break;
-						case 'r':
-							score+=PRookTable[(i*8)+j];
-							break;
-						case 'b':
-							score+=PBishopTable[(i*8)+j];
-							break;
-						case 'h':
-							score+=PKnightTable[(i*8)+j];
-							break;
-						case 'p':
-							score+=PPawnTable[(i*8)+j];
-							break;
-						default:
-							break;
+						switch(board[i][j])
+						{
+							case 'k':
+								score+=PKingTable[(i*8)+j];
+								break;
+							case 'q':
+								score+=PQueenTable[(i*8)+j];
+								break;
+							case 'r':
+								score+=PRookTable[(i*8)+j];
+								break;
+							case 'b':
+								score+=PBishopTable[(i*8)+j];
+								break;
+							case 'h':
+								score+=PKnightTable[(i*8)+j];
+								break;
+							case 'p':
+								score+=PPawnTable[(i*8)+j];
+								break;
+							default:
+								break;
+						}
 					}
+					else
+					{
+						switch(board[i][j])
+						{
+							case 'K':
+								score+=CKingTable[(i*8)+j];
+								break;
+							case 'Q':
+								score+=CQueenTable[(i*8)+j];
+								break;
+							case 'R':
+								score+=CRookTable[(i*8)+j];
+								break;
+							case 'B':
+								score+=CBishopTable[(i*8)+j];
+								break;
+							case 'H':
+								score+=CKnightTable[(i*8)+j];
+								break;
+							case 'P':
+								score+=CPawnTable[(i*8)+j];
+								break;
+							default:
+								break;
+						}
+					}
+					
 				}
 			}
-			score = victory ? 10000 : score;
+			score = victory ? state::MAXINFINITY : score;
 			value = score;
 		}
 
@@ -297,20 +335,20 @@ class state {
 
 		void output()
 		{
-			std::cout << "  " << 0 << " " << 1 << " " << 2 << " " << 3 << " " << 4 << " " << 5 << " " << 6 << " " << 7 << std::endl;
+			std::cout << "   | " << 0 << " | " << 1 << " | " << 2 << " | " << 3 << " | " << 4 << " | " << 5 << " | " << 6 << " | " << 7 << " | " << std::endl << "------------------------------------" << std::endl;
 			for (int i = 0; i < 8; ++i)
 			{
-				std::cout << i << " ";
+				std::cout << " " << i << " | ";
 				for (int j = 0; j < 8; ++j)
 				{
-					std::cout << board[i][j] << " ";
+					std::cout << board[i][j] << " | ";
 				}
-				std::cout << std::endl;
+				std::cout << std::endl << "------------------------------------" << std::endl;
 			}
-			std::cout << player << std::endl;
-			std::cout << value << std::endl;
-			std::cout << level << std::endl;
-			std::cout << minmax << std::endl;
+			// std::cout << player << std::endl;
+			// std::cout << value << std::endl;
+			// std::cout << level << std::endl;
+			// std::cout << minmax << std::endl;
 			std::cout << std::endl;
 			for (int i = 0; i < children.size(); ++i)
 			{

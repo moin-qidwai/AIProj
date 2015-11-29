@@ -45,7 +45,10 @@ std::vector<state> expand(state s)
 									t.board[i+row][j+col] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}	
 						}
@@ -63,7 +66,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -85,7 +91,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -137,7 +146,10 @@ std::vector<state> expand(state s)
 									t.board[row+i][col+j] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 						}
@@ -155,7 +167,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -175,7 +190,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -196,7 +214,10 @@ std::vector<state> expand(state s)
 									t.board[i+1][j+1] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 							if(j > 0)
@@ -208,17 +229,35 @@ std::vector<state> expand(state s)
 									t.board[i+1][j-1] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 							char piece = s.board[i+1][j];
-							if(piece == 'E' || piece == 'k' || piece == 'h' || piece == 'r' || piece == 'b' || piece == 'q' || piece == 'p' )
+							if(piece == 'E' )
 							{
 								state t = state::createChild(s);
 								t.board[i+1][j] = t.board[i][j];
 								t.board[i][j] = 'E';
 								t.calcValue();
-								c.push_back(t);
+								if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
+							}
+							piece = s.board[i+2][j];
+							if(piece == 'E' && s.board[i+1][j] == 'E')
+							{
+								state t = state::createChild(s);
+								t.board[i+2][j] = t.board[i][j];
+								t.board[i][j] = 'E';
+								t.calcValue();
+								if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 							}
 						}
 						break;
@@ -267,7 +306,10 @@ std::vector<state> expand(state s)
 									t.board[i+row][j+col] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}	
 						}
@@ -285,7 +327,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -307,7 +352,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -359,7 +407,10 @@ std::vector<state> expand(state s)
 									t.board[row+i][col+j] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 						}
@@ -377,7 +428,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -397,7 +451,10 @@ std::vector<state> expand(state s)
 									t.board[k][l] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 								else
 								{
@@ -418,7 +475,10 @@ std::vector<state> expand(state s)
 									t.board[i-1][j+1] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 							if(j > 0)
@@ -430,17 +490,35 @@ std::vector<state> expand(state s)
 									t.board[i-1][j-1] = t.board[i][j];
 									t.board[i][j] = 'E';
 									t.calcValue();
-									c.push_back(t);
+									if(!data::isChecked(t, s.getPlayer()))
+									{
+										c.push_back(t);
+									}
 								}
 							}
 							char piece = s.board[i-1][j];
-							if(piece == 'E' || piece == 'K' || piece == 'H' || piece == 'R' || piece == 'B' || piece == 'Q' || piece == 'P' )
+							if(piece == 'E')
 							{
 								state t = state::createChild(s);
 								t.board[i-1][j] = t.board[i][j];
 								t.board[i][j] = 'E';
 								t.calcValue();
-								c.push_back(t);
+								if(!data::isChecked(t, s.getPlayer()))
+								{
+									c.push_back(t);
+								}
+							}
+							piece = s.board[i-2][j];
+							if(piece == 'E' && s.board[i-1][j] == 'E')
+							{
+								state t = state::createChild(s);
+								t.board[i-2][j] = t.board[i][j];
+								t.board[i][j] = 'E';
+								t.calcValue();
+								if(!data::isChecked(t, s.getPlayer()))
+								{
+									c.push_back(t);
+								}
 							}
 						}
 						break;
@@ -454,7 +532,7 @@ std::vector<state> expand(state s)
 class Tree {
     state head;
     std::vector<state*> stack;
-    state * newchilds = new state[7000];
+    state * newchilds = new state[15000];
     
     public:
     
@@ -483,7 +561,7 @@ class Tree {
     	{
     		state * current = stack.back();
     		stack.pop_back();
-    		if(current->getValue() != 10000)
+    		if(current->getValue() != state::MAXINFINITY)
     		{
     			std::vector<state> temp = expand(*current);
     			if(temp.size() > 1)
@@ -498,6 +576,7 @@ class Tree {
     				
     				newchilds[ind] = temp.at(i);
     				current->children.push_back(&(newchilds[ind]));
+    				newchilds[ind].parent = current;
     				stack.push_back(&(newchilds[ind]));
     				ind++;
     			}
@@ -505,6 +584,7 @@ class Tree {
     	}
     }
 
+    // function that contains login for minmax and alpha-beta pruning
     void static minmax(state & s)
     {
     	if(s.children.size() == 0)
@@ -512,63 +592,65 @@ class Tree {
     		s.setMinMax(s.getValue());
     		return;
     	}
-    	for (int i = 0; i < s.children.size(); ++i)
-    	{
-    		if(s.children.at(i) != NULL)
-    		{
-    			Tree::minmax( *(s.children.at(i)) );
-    		}
-    	}
-    	if(s.getPlayer())
-    	{
-    		int min = 100000;
-    		for (int i = 0; i < s.children.size(); ++i)
-    		{
-    			if(s.children.at(i) != NULL)
-    			{
-    				min = s.children.at(i)->getValue();
-    				break;
-    			}		
-    		}
-    		if(min != 100000)
-    		{
-    			for (int i = 1; i < s.children.size(); ++i)
-	    		{
-	    			if(s.children.at(i) != NULL && s.children.at(i)->getValue() < min)
-	    				min = s.children.at(i)->getValue();	
-	    		}
-	    		s.setMinMax(min);
-    		}
-    		else
-    		{
-    			s.setMinMax(s.getValue());
-    		}
-    	}
     	else
     	{
-    		int max = -100000;
+    		bool allNULL = true;
     		for (int i = 0; i < s.children.size(); ++i)
     		{
     			if(s.children.at(i) != NULL)
     			{
-    				max = s.children.at(i)->getValue();
-    				break;
-    			}		
+    				allNULL = false;
+    			}
     		}
-    		if(max != -100000)
-    		{
-    			for (int i = 1; i < s.children.size(); ++i)
-	    		{
-	    			if(s.children.at(i) != NULL && s.children.at(i)->getValue() > max)
-	    				max = s.children.at(i)->getValue();	
-	    		}
-	    		s.setMinMax(max);
-    		}
-    		else
+    		if(allNULL)
     		{
     			s.setMinMax(s.getValue());
+    			return;
     		}
     	}
+    	for (int i = 0; i < s.children.size(); ++i)
+    	{
+    		if(s.getPlayer() && (s.getMinMax() != state::MAXINFINITY))
+			{
+				if(s.parent != NULL && sizeof(s.parent->board) > 64)
+				{
+					if(s.parent->getMinMax() != state::MININFINITY && s.parent->getMinMax() > s.getMinMax())
+					{
+						return;	
+					}
+				}
+			}
+			else if (!(s.getPlayer()) && (s.getMinMax() != state::MININFINITY) )
+			{
+				if(s.parent != NULL && sizeof(s.parent->board) > 64) 
+				{
+					if(s.parent->getMinMax() != state::MAXINFINITY && s.parent->getMinMax() < s.getMinMax())
+					{
+						return;
+					}
+				}
+			}
+    		if(s.children.at(i) != NULL)
+    		{
+    			
+    			Tree::minmax( *(s.children.at(i)) );
+    			if(s.getPlayer())
+    			{
+    				if(s.getMinMax() == state::MAXINFINITY || (s.getMinMax() != state::MAXINFINITY && s.getMinMax() > s.children.at(i)->getMinMax()))
+    				{
+    					s.setMinMax(s.children.at(i)->getMinMax());
+    				}
+    			}
+    			else
+    			{
+    				if(s.getMinMax() == state::MININFINITY || (s.getMinMax() != state::MININFINITY && s.getMinMax() < s.children.at(i)->getMinMax()))
+    				{
+    					s.setMinMax(s.children.at(i)->getMinMax());
+    				}
+    			}
+    		}
+    	}
+    	
     }
 
 
@@ -579,17 +661,34 @@ class Tree {
 
     state getMove()
     {
+    	int mm = head.getPlayer() ? state::MAXINFINITY : state::MININFINITY;
     	for (int i = 0; i < head.children.size(); ++i)
     	{
     		if(head.children.at(i) != NULL)
     		{
-    			if(head.getMinMax() == head.children.at(i)->getValue())
+    			if( mm < head.children.at(i)->getMinMax())
+    			{
+    				mm = head.children.at(i)->getMinMax();
+    			}
+    		}
+    	}
+    	for (int i = 0; i < head.children.size(); ++i)
+    	{
+    		if(head.children.at(i) != NULL)
+    		{
+    			if( mm == head.children.at(i)->getMinMax())
     			{
     				return *(head.children.at(i));
     			}
     		}
     	}
-    	return head;
+    	for (int i = 0; i < head.children.size(); ++i)
+    	{
+    		if(head.children.at(i) != NULL)
+    		{
+    			return *(head.children.at(i));
+    		}
+    	}
     }
 
     void destroy()
@@ -597,16 +696,17 @@ class Tree {
     	delete newchilds;
     }
 
+    // function to traverse the tree, in order traversal
     void traverse()
     {
     	head.output();
-    	// for (int i = head.children.size()-1; i >= 0; --i)
-    	// {
-    	// 	if(head.children[i] != NULL)
-    	// 		head.children[i]->output();
-    	// 	else
-    	// 		break;
-    	// }
+    	for (int i = head.children.size()-1; i >= 0; --i)
+    	{
+    		if(head.children[i] != NULL)
+    			head.children[i]->output();
+    		else
+    			break;
+    	}
     }
 
 };
