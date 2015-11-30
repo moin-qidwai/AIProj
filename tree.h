@@ -557,7 +557,7 @@ class Tree {
     {
     	int ind = 0;
     	stack.push_back(&head);
-    	while(stack.size() > 0)
+    	while(stack.size() > 0)yo
     	{
     		state * current = stack.back();
     		stack.pop_back();
