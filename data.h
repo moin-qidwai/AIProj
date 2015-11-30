@@ -27,6 +27,8 @@ class data {
 		    head.children.push_back(NULL);
 		    head.calcValue();
 		    head.parent = NULL;
+		    head.setAlpha(state::MININFINITY);
+		    head.setBeta(state::MAXINFINITY);
 		    return head;
 		}
 

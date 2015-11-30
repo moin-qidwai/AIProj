@@ -1,7 +1,7 @@
 class state {
 
     bool player;
-    int value, level, minmax;
+    int value, level, alpha, beta;
 
     int CPawnTable[64] = 
 	{
@@ -169,9 +169,8 @@ class state {
 	    	}
 	    	player = false;
 	    	level = 0;
-	    	minmax = 0;
-	    	calcValue();
-	    	minmax = state::MININFINITY;
+	    	alpha = state::MININFINITY;
+	    	beta = state::MAXINFINITY;
 	    	children.push_back(NULL);
 	    }
 
@@ -186,7 +185,6 @@ class state {
 			}
 			player = t.player;
 			level = t.level;
-			calcValue();
 			parent = t.parent;
 		}
 
@@ -203,8 +201,8 @@ class state {
 			s.player = !(parent.player);
 			s.level = parent.level+1;
 			s.children.push_back(NULL);
-			s.calcValue();
-			s.minmax = parent.player ? state::MAXINFINITY : state::MININFINITY;
+			s.setAlpha(state::MININFINITY);
+	    	s.setBeta(state::MAXINFINITY);
 			return s;
 	    }
 
@@ -312,6 +310,11 @@ class state {
 			return value;
 		}
 
+		void setValue(int x)
+		{
+			value = x;
+		}
+
 		int getLevel()
 		{
 			return level;
@@ -322,14 +325,24 @@ class state {
 			level = l;
 		}
 
-		int getMinMax()
+		int getAlpha()
 		{
-			return minmax;
+			return alpha;
 		}
 
-		void setMinMax(int mm)
+		void setAlpha(int a)
 		{
-			minmax = mm;
+			alpha = a;
+		}
+
+		int getBeta()
+		{
+			return beta;
+		}
+
+		void setBeta(int b)
+		{
+			beta = b;
 		}
 
 
@@ -348,7 +361,6 @@ class state {
 			// std::cout << player << std::endl;
 			// std::cout << value << std::endl;
 			// std::cout << level << std::endl;
-			// std::cout << minmax << std::endl;
 			std::cout << std::endl;
 			for (int i = 0; i < children.size(); ++i)
 			{

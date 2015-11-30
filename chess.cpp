@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include <vector>
 #include <stdio.h>
 #include <string.h>
@@ -63,8 +64,8 @@ int main()
     head.output();
 
     Tree tree = Tree(head);
+    cout << endl << "The Computer is thinking...." << endl;
     tree.create();
-    tree.recurse();
 
     while(1)
     {
@@ -120,10 +121,11 @@ int main()
         head.output();  
 
         try {
+            tree.destroy();
             tree = Tree(head);
             cout << endl << "The Computer is thinking...." << endl;
             tree.create();
-            tree.recurse();
+            // tree.destroy();
         }
         catch (std::exception& e)
         {
